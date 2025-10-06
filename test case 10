@@ -1,0 +1,23 @@
+def constrained_max_subarray_sum(arr, constraint):
+
+max_sum = float(&#39;-inf&#39;)
+current_sum = 0
+
+for num in arr:
+if current_sum + num &gt; constraint:
+if num &lt;= constraint:
+current_sum = num
+else:
+current_sum = 0
+else:
+current_sum += num
+
+if current_sum &gt; max_sum and current_sum &lt;= constraint:
+max_sum = current_sum
+
+return max_sum if max_sum != float(&#39;-inf&#39;) else &quot;no subarray&quot;
+resources = list(range(1, 100001)) # [1, 2, ..., 100000]
+constraint = 10**9
+
+result = constrained_max_subarray_sum(resources, constraint)
+print(result)
