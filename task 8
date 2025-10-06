@@ -1,0 +1,42 @@
+def Left_Right_MaximumSubarray(A, low, high, constraint):
+    if not A:
+        return &quot;no subarray&quot;
+
+    if high == low:
+        return A[low] if A[low] &lt;= constraint else float(&#39;-inf&#39;)
+    else:
+        mid = (low + high) // 2
+
+        leftsum = Left_Right_MaximumSubarray(A, low, mid, constraint)
+        rightsum = Left_Right_MaximumSubarray(A, mid + 1, high, constraint)
+        midcrosssum = Midpoint_Crosssum(A, low, mid, high, constraint)
+
+        max_sum = max(leftsum, rightsum, midcrosssum)
+        return max_sum if max_sum != float(&#39;-inf&#39;) else &quot;no subarray&quot;
+
+def Midpoint_Crosssum(A, low, mid, high, constraint):
+
+    sum = 0
+    leftsum = float(&#39;-inf&#39;)
+    for i in range(mid, low - 1, -1):
+        sum += A[i]
+        if sum &gt; leftsum:
+            leftsum = sum
+
+    sum = 0
+    rightsum = float(&#39;-inf&#39;)
+    for i in range(mid + 1, high + 1):
+        sum += A[i]
+        if sum &gt; rightsum:
+            rightsum = sum
+
+    total = leftsum + rightsum
+    return total if total &lt;= constraint else float(&#39;-inf&#39;)
+resources = []
+constraint = 10
+
+if not resources:
+    print(&quot;no subarray&quot;)
+else:
+    result = Left_Right_MaximumSubarray(resources, 0, len(resources) - 1, constraint)
+    print(result)
