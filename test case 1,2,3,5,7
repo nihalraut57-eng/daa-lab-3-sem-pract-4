@@ -1,0 +1,47 @@
+def Left_Right_MaximumSubarray(A, low, high):
+
+    if high == low:
+        return A[low] if A[low] &lt;= 5 else float(&#39;-inf&#39;)
+    else:
+        mid = (low + high) // 2
+
+        leftsum = Left_Right_MaximumSubarray(A, low, mid)
+        rightsum = Left_Right_MaximumSubarray(A, mid + 1, high)
+        midcrosssum = Midpoint_Crosssum(A, low, mid, high)
+
+        max_sum = max(leftsum, rightsum, midcrosssum)
+        return max_sum if max_sum &lt;= 5 else float(&#39;-inf&#39;)
+
+def Midpoint_Crosssum(A, low, mid, high):
+    sum = 0
+    leftsum = float(&#39;-inf&#39;)
+    for i in range(mid, low - 1, -1):
+        sum += A[i]
+        if sum &gt; leftsum:
+            leftsum = sum
+
+    sum = 0
+    rightsum = float(&#39;-inf&#39;)
+    for i in range(mid + 1, high + 1):
+        sum += A[i]
+        if sum &gt; rightsum:
+            rightsum = sum
+
+    total = leftsum + rightsum
+    return total if total &lt;= 5 else float(&#39;-inf&#39;)
+#test1
+resources1 = [2, 1, 3, 4]
+print(Left_Right_MaximumSubarray(resources1,1,len(resources1)-1))
+#test2
+resources = [2, 2, 2, 2]
+print(Left_Right_MaximumSubarray(resources,1,len(resources)-1))
+#test3
+resources = [1, 5, 2, 3]
+print(Left_Right_MaximumSubarray(resources,1,len(resources)-1))
+
+#test5
+resources = [1, 2, 3, 2, 1]
+print(Left_Right_MaximumSubarray(resources,1,len(resources)-1))
+#test7
+resources = [4, 2, 3, 1]
+print(Left_Right_MaximumSubarray(resources,1,len(resources)-1))
